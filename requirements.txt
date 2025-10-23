@@ -44,7 +44,7 @@ gdal==3.7.3
 sentinelhub==3.9.1
 
 # Weather API Integration
-requests==2.31.0
+requests==2.32.4
 aiohttp==3.9.1
 
 # Environment Variables
