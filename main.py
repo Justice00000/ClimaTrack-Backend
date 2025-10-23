@@ -19,9 +19,7 @@ from geopy.distance import geodesic
 import numpy as np
 import os
 
-# ============================================================================
 # CONFIGURATION
-# ============================================================================
 
 # Use environment variable for SECRET_KEY in production
 SECRET_KEY = os.getenv("SECRET_KEY", "k46cIo6jN4zRe6RkmWUGKYy5HQ7EtkVXxg2_5VaDvNM")
@@ -47,9 +45,7 @@ app.add_middleware(
 
 security = HTTPBearer()
 
-# ============================================================================
 # ENUMS AND CONSTANTS
-# ============================================================================
 
 class RiskLevel(str, Enum):
     LOW = "low"
@@ -69,9 +65,7 @@ class AlertType(str, Enum):
     WEATHER_ALERT = "weather_alert"
     WATER_CONTAMINATION = "water_contamination"
 
-# ============================================================================
 # PYDANTIC MODELS
-# ============================================================================
 
 class UserRegistration(BaseModel):
     full_name: str = Field(..., min_length=2, max_length=100)
@@ -149,9 +143,7 @@ class ZoneData(BaseModel):
     last_updated: datetime
     historical_outbreaks: Optional[int] = None
 
-# ============================================================================
-# IN-MEMORY DATABASE (Replace with PostgreSQL/MongoDB in production)
-# ============================================================================
+# IN-MEMORY DATABASE
 
 USERS_DB = {}
 PREDICTIONS_DB = {}
@@ -199,9 +191,7 @@ ZONES_DB = {
     }
 }
 
-# ============================================================================
 # UTILITY FUNCTIONS
-# ============================================================================
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Create JWT access token"""
@@ -314,9 +304,7 @@ def generate_recommendations(risk_level: RiskLevel, factors: List[Dict]) -> List
     
     return recommendations
 
-# ============================================================================
 # API ENDPOINTS
-# ============================================================================
 
 @app.post("/api/auth/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 async def register_user(user_data: UserRegistration):
@@ -546,9 +534,7 @@ async def health_check():
         "ml_model": "loaded"
     }
 
-# ============================================================================
 # RUN SERVER
-# ============================================================================
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
